@@ -22,7 +22,7 @@ var (
 	region         = flag.String("region", os.Getenv("AWS_REGION"), "AWS region")
 	clusterName    = flag.String("cluster-name", os.Getenv("CLUSTER_NAME"), "Cluster name")
 	nodegroupLabel = flag.String("label", os.Getenv("LABEL"), "Nodegroup target label")
-	period         = flag.Duration("period", 10*time.Second, "Reconciliation period in seconds")
+	period         = flag.Duration("period", 60*time.Second, "Reconciliation period in seconds")
 	debug          = flag.Bool("debug", false, "Enable debug logging")
 	dryRun         = flag.Bool("dry-run", false, "Changes disabled")
 )
