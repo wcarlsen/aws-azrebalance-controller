@@ -16,7 +16,7 @@ spec:
         app: aws-azrebalance-controller
     spec:
       containers:
-      - image: ghcr.io/wcarlsen/aws-azrebalance-controller:v0.1.0
+      - image: ghcr.io/wcarlsen/aws-azrebalance-controller:latest
         name: aws-azrebalance-controller
         resources:
           requests:
