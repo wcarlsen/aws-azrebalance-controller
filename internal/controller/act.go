@@ -8,11 +8,6 @@ import (
 	"github.com/wcarlsen/aws-azrebalance-controller/internal/aws"
 )
 
-const (
-	action  = "AZRebalancing process %s"
-	nothing = "Nothing to do AZRebalancing already %s"
-)
-
 type actType struct {
 	asgName string
 	resume  bool

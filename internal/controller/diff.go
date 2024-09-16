@@ -7,14 +7,14 @@ import (
 	"github.com/wcarlsen/aws-azrebalance-controller/internal/aws"
 )
 
-func diff(ng aws.Nodegroup) []actType {
+func diff(ng aws.Nodegroup, instanceAware bool) []actType {
 	var ds []actType
 	for _, asg := range ng.Asgs {
 		d := actType{asgName: asg.Name}
 		for _, sp := range asg.SuspendedProcess {
 			if *sp.ProcessName == aws.AZRebalance {
 				if !ng.LabelBool {
-					if asg.Instances > 0 {
+					if instanceAware && asg.Instances > 0 {
 						log.WithFields(log.Fields{
 							"nodegroup": ng.Name,
 							"asg":       asg.Name,

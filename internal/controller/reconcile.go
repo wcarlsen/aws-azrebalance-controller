@@ -8,7 +8,7 @@ import (
 	"github.com/wcarlsen/aws-azrebalance-controller/internal/aws"
 )
 
-func Reconile(c aws.Clients, label string) {
+func Reconile(c aws.Clients, label string, instanceAware bool) {
 	st := time.Now()
 	log.Info("Reconciliation loop started")
 
@@ -41,7 +41,7 @@ func Reconile(c aws.Clients, label string) {
 			}
 
 			// Diff
-			acts := diff(ng)
+			acts := diff(ng, instanceAware)
 
 			// Act
 			for _, a := range acts {

@@ -22,6 +22,7 @@ var (
 	region         = flag.String("region", os.Getenv("AWS_REGION"), "AWS region")
 	clusterName    = flag.String("cluster-name", os.Getenv("CLUSTER_NAME"), "Cluster name")
 	nodegroupLabel = flag.String("label", os.Getenv("LABEL"), "Nodegroup target label")
+	instanceAware  = flag.Bool("instance-aware", false, "Only resume AZReblance process if ASG instance count is zero")
 	period         = flag.Duration("period", 60*time.Second, "Reconciliation period in seconds")
 	debug          = flag.Bool("debug", false, "Enable debug logging")
 	dryRun         = flag.Bool("dry-run", false, "Changes disabled")
@@ -73,7 +74,7 @@ func main() {
 
 	go func() {
 		for {
-			controller.Reconile(clients, *nodegroupLabel)
+			controller.Reconile(clients, *nodegroupLabel, *instanceAware)
 			select {
 			case <-ticker.C:
 				continue
