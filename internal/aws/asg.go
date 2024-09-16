@@ -10,6 +10,7 @@ const AZRebalance string = "AZRebalance"
 type Asg struct {
 	Name             string
 	SuspendedProcess []types.SuspendedProcess
+	Instances        int
 }
 
 func (a *Asg) Get(c Clients) error {
@@ -22,6 +23,7 @@ func (a *Asg) Get(c Clients) error {
 	}
 	for _, asg := range dasg.AutoScalingGroups {
 		a.SuspendedProcess = asg.SuspendedProcesses
+		a.Instances = len(asg.Instances)
 	}
 	return nil
 }

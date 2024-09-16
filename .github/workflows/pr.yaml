@@ -1,8 +1,14 @@
 ---
 name: Go build and test
 on:
-    pull_request:
-      branches: ["main"]
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+      - "**/*.md"
+      - ".github/**"
+      - ".gitignore"
+      - "deploy/**"
+      - "terraform/**"
 
 jobs:
   build:
