@@ -18,8 +18,7 @@ func diff(ng aws.Nodegroup) []actType {
 						log.WithFields(log.Fields{
 							"nodegroup": ng.Name,
 							"asg":       asg.Name,
-						}).Info(fmt.Sprintf("AZRebalance process should be resumed, but instances running is %d so it will be suspended", asg.Instances))
-						d.suspend = true
+						}).Info(fmt.Sprintf("AZRebalance process should be resumed, but instances running is %d so it will keep being suspended", asg.Instances))
 					} else {
 						d.resume = true
 					}
