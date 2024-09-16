@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: aws-azrebalance-controller
+  name: aws-azrebalance-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aws-azrebalance-controller
+  template:
+    metadata:
+      labels:
+        app: aws-azrebalance-controller
+    spec:
+      containers:
+      - image: ghcr.io/wcarlsen/aws-azrebalance-controller:v0.1.0
+        name: aws-azrebalance-controller
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi

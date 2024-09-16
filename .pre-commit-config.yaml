@@ -1,0 +1,47 @@
+repos:
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.77.1
+  hooks:
+    - id: terraform_fmt
+    - id: terraform_tflint
+      args:
+        - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+    - id: trailing-whitespace
+    - id: check-added-large-files
+    - id: check-merge-conflict
+    - id: detect-private-key
+- repo: https://github.com/zricethezav/gitleaks
+  rev: v8.16.1
+  hooks:
+    - id: gitleaks-docker
+- repo: https://github.com/python-jsonschema/check-jsonschema
+  rev: 0.29.2
+  hooks:
+    - id: check-github-workflows
+- repo: local
+  hooks:
+  - id: kustomize
+    name: validate kustmoizations
+    language: system
+    entry: kustomize
+    args:
+    - build
+    - deploy/
+    always_run: true
+    pass_filenames: false
+- repo: local
+  hooks:
+  - id: kubeconform
+    name: validate kubernetes manifests
+    language: system
+    entry: kubeconform
+    args:
+    - -strict
+    - -skip
+    - Kustomization
+    - -schema-location
+    - default
+    files: ^deploy/.*
