@@ -2,14 +2,16 @@ package aws
 
 import (
 	"github.com/aws/aws-sdk-go-v2/service/autoscaling"
-	"github.com/aws/aws-sdk-go-v2/service/autoscaling/types"
+	"github.com/pkg/errors"
 )
 
 const AZRebalance string = "AZRebalance"
 
+const errGotMoreASGsThanRequested string = "Describe single ASG returned more than one ASG"
+
 type Asg struct {
 	Name             string
-	SuspendedProcess []types.SuspendedProcess
+	SuspendedProcess []string
 	Instances        int
 }
 
@@ -21,9 +23,14 @@ func (a *Asg) Get(c Clients) error {
 	if err != nil {
 		return err
 	}
-	for _, asg := range dasg.AutoScalingGroups {
-		a.SuspendedProcess = asg.SuspendedProcesses
-		a.Instances = len(asg.Instances)
+	if len(dasg.AutoScalingGroups) > 1 {
+		return errors.New(errGotMoreASGsThanRequested)
+	}
+	asg := dasg.AutoScalingGroups[0] // we know we request only one
+	a.Instances = len(asg.Instances)
+
+	for _, sp := range asg.SuspendedProcesses {
+		a.SuspendedProcess = append(a.SuspendedProcess, *sp.ProcessName)
 	}
 	return nil
 }

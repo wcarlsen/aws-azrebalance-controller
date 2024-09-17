@@ -19,12 +19,11 @@ func observe(c aws.Clients, label string, nodegroupName string) (aws.Nodegroup, 
 	}
 
 	// Loop over ASGs and get their details
-	for _, asg := range ng.Asgs {
-		err := asg.Get(c)
+	for i := range ng.Asgs {
+		err := ng.Asgs[i].Get(c)
 		if err != nil {
 			return aws.Nodegroup{}, err
 		}
 	}
-
 	return ng, nil
 }

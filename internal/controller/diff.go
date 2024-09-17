@@ -8,11 +8,12 @@ import (
 )
 
 func diff(ng aws.Nodegroup, instanceAware bool) []actType {
+	// log.Debug(ng)
 	var ds []actType
 	for _, asg := range ng.Asgs {
 		d := actType{asgName: asg.Name}
 		for _, sp := range asg.SuspendedProcess {
-			if *sp.ProcessName == aws.AZRebalance {
+			if sp == aws.AZRebalance {
 				if !ng.LabelBool {
 					if instanceAware && asg.Instances > 0 {
 						log.WithFields(log.Fields{

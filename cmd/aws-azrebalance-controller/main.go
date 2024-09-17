@@ -45,11 +45,12 @@ func main() {
 
 	// Setup
 	log.WithFields(log.Fields{
-		"region":       region,
-		"cluster-name": clusterName,
-		"label":        nodegroupLabel,
-		"period":       period.Seconds(),
-		"dry-run":      dryRun,
+		"region":        region,
+		"cluster-name":  clusterName,
+		"label":         nodegroupLabel,
+		"instace-aware": instanceAware,
+		"period":        period.Seconds(),
+		"dry-run":       dryRun,
 	}).Info("Starting AZ rebalancing controller")
 
 	// Setup clients
